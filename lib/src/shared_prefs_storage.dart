@@ -1,6 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsStorage {
+  /// Retrieves an item from SharedPreferences.
+  ///
+  /// [key] is the key of the item to retrieve.
   Future<String?> getItemFromSharedPreferences(String key) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -11,6 +14,9 @@ class SharedPrefsStorage {
     }
   }
 
+  /// Retrieves all items from SharedPreferences.
+  ///
+  /// Returns a Map of all key-value pairs stored in SharedPreferences.
   Future<Map<String, String>> getAllItemsFromSharedPreferences() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -29,6 +35,9 @@ class SharedPrefsStorage {
     }
   }
 
+  /// Removes an item from SharedPreferences.
+  ///
+  /// [key] is the key of the item to remove.
   Future<bool> removeItemFromSharedPreferences(String key) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -40,6 +49,9 @@ class SharedPrefsStorage {
     }
   }
 
+  /// Clears all items from SharedPreferences.
+  ///
+  /// Returns true if the operation was successful, false otherwise.
   Future<bool> clearSharedPreferences() async {
     try {
       final prefs = await SharedPreferences.getInstance();

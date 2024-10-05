@@ -6,7 +6,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 class IOSStorage {
   String? _asyncStoragePath;
 
-  Future<void> _initializeIOSAsyncStoragePath() async {
+  /// Initializes the iOS AsyncStorage path.
+  ///
+  /// This method sets up the path where AsyncStorage data will be stored.
+  Future<void> initializeIOSAsyncStoragePath() async {
     if (_asyncStoragePath != null) return;
 
     final directory = await getApplicationDocumentsDirectory();
@@ -19,8 +22,11 @@ class IOSStorage {
         '${appSupportDir.path}/$bundleId/RCTAsyncLocalStorage_V1';
   }
 
+  /// Retrieves an item from iOS AsyncStorage.
+  ///
+  /// [key] is the key of the item to retrieve.
   Future<String?> getItemFromIOSAsyncStorage(String key) async {
-    await _initializeIOSAsyncStoragePath();
+    await initializeIOSAsyncStoragePath();
     try {
       final manifestFile = File('$_asyncStoragePath/manifest.json');
       if (await manifestFile.exists()) {
@@ -34,8 +40,11 @@ class IOSStorage {
     return null;
   }
 
+  /// Retrieves all items from iOS AsyncStorage.
+  ///
+  /// Returns a Map of all key-value pairs stored in AsyncStorage.
   Future<Map<String, String>> getAllItemsFromIOSAsyncStorage() async {
-    await _initializeIOSAsyncStoragePath();
+    await initializeIOSAsyncStoragePath();
     try {
       final manifestFile = File('$_asyncStoragePath/manifest.json');
       if (await manifestFile.exists()) {
@@ -49,8 +58,11 @@ class IOSStorage {
     return {};
   }
 
+  /// Removes an item from iOS AsyncStorage.
+  ///
+  /// [key] is the key of the item to remove.
   Future<bool> removeItemFromIOSAsyncStorage(String key) async {
-    await _initializeIOSAsyncStoragePath();
+    await initializeIOSAsyncStoragePath();
     try {
       final manifestFile = File('$_asyncStoragePath/manifest.json');
       if (await manifestFile.exists()) {
@@ -66,8 +78,11 @@ class IOSStorage {
     return false;
   }
 
+  /// Clears all items from iOS AsyncStorage.
+  ///
+  /// Returns true if the operation was successful, false otherwise.
   Future<bool> clearIOSAsyncStorage() async {
-    await _initializeIOSAsyncStoragePath();
+    await initializeIOSAsyncStoragePath();
     try {
       final manifestFile = File('$_asyncStoragePath/manifest.json');
       if (await manifestFile.exists()) {
