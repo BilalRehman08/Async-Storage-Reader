@@ -8,7 +8,7 @@ When migrating from React Native to Flutter, one of the most significant challen
 
 ### Demo Preview
 
-![Demo Preview](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTQydGs1M2Y2b3kyM2M4ZDJiZWR0MWh6a3l2ZjRheTFlNms5aXVneiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0XGU8iKdhs0To3nzKM/giphy.gif)
+![Demo Preview](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXdkd2p3eGxqa2l2bGh1dGE3d255ZzBpa2w5NjF2MHp1NTJuZXM3MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yW5t6bshSXNRxBriul/giphy.gif)
 
 ### Platform Support for async_storage_reader
 
