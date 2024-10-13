@@ -3,6 +3,9 @@
 
 A Flutter package created to assist in migrating data from a React Native app by accessing and reading AsyncStorage for Android and iOS. It allows reading of AsyncStorage data from react native app, like user session tokens, preferences, other configurations, and cached data are preserved without logging out or data loss during migration to a new Flutter app.
 
+
+**Note:** Please ensure that both the React Native and Flutter apps have the same bundle ID (for iOS) and application ID (for Android).
+
 ## Why This Package?
 When migrating from React Native to Flutter, one of the most significant challenges is ensuring that existing data stored in the app is preserved. This could include user session tokens, settings, cached preferences, or any other key-value pairs that were previously stored using React Native's AsyncStorage. Without this, users might lose their preferences or be logged out. This package solves the problem by offering an easy way to access all AsyncStorage in your new Flutter app. 
 
