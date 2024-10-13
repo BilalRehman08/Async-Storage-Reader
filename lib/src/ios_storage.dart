@@ -1,8 +1,13 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+/// A class to handle iOS-specific AsyncStorage operations.
+///
+/// This class provides methods to interact with the iOS AsyncStorage,
+/// including reading, writing, and clearing data.
 class IOSStorage {
   String? _asyncStoragePath;
 
@@ -35,7 +40,7 @@ class IOSStorage {
         return manifest[key];
       }
     } catch (e) {
-      print("Error reading from iOS AsyncStorage: $e");
+      log("Error reading from iOS AsyncStorage: $e");
     }
     return null;
   }
@@ -53,7 +58,7 @@ class IOSStorage {
         return jsonContent.map((key, value) => MapEntry(key, value.toString()));
       }
     } catch (e) {
-      print("Error reading all items from iOS AsyncStorage: $e");
+      log("Error reading all items from iOS AsyncStorage: $e");
     }
     return {};
   }
@@ -73,7 +78,7 @@ class IOSStorage {
         return true;
       }
     } catch (e) {
-      print("Error removing item from iOS AsyncStorage: $e");
+      log("Error removing item from iOS AsyncStorage: $e");
     }
     return false;
   }
@@ -90,7 +95,7 @@ class IOSStorage {
         return true;
       }
     } catch (e) {
-      print("Error clearing iOS AsyncStorage: $e");
+      log("Error clearing iOS AsyncStorage: $e");
     }
     return false;
   }

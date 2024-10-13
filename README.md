@@ -1,27 +1,27 @@
-## Migrate Local Data from React Native to Flutter - async_storage_reader 
+# Migrate Local Data from React Native to Flutter - async_storage_reader 
 
 
 A Flutter package created to assist in migrating data from a React Native app by accessing and reading AsyncStorage for Android and iOS. It allows reading of AsyncStorage data from react native app, like user session tokens, preferences, other configurations, and cached data are preserved without logging out or data loss during migration to a new Flutter app.
 
-### Why This Package?
+## Why This Package?
 When migrating from React Native to Flutter, one of the most significant challenges is ensuring that existing data stored in the app is preserved. This could include user session tokens, settings, cached preferences, or any other key-value pairs that were previously stored using React Native's AsyncStorage. Without this, users might lose their preferences or be logged out. This package solves the problem by offering an easy way to access all AsyncStorage in your new Flutter app. 
 
-### Demo Preview
+## Demo Preview
 
 ![Demo Preview](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXdkd2p3eGxqa2l2bGh1dGE3d255ZzBpa2w5NjF2MHp1NTJuZXM3MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yW5t6bshSXNRxBriul/giphy.gif)
 
-### Platform Support for async_storage_reader
+## Platform Support for async_storage_reader
 
 The `async_storage_reader` package provides support for both Android and iOS platforms. 
 
-### Features
+## Features
 - Read individual key-value pairs from React Native's AsyncStorage.
 - Retrieve all key-value pairs stored in AsyncStorage.
 - Support for both Android and iOS platforms.
 - Prevent user logouts during app migrations by retrieving session tokens or other vital data.
 - Provides methods to read, remove, and clear storage data.
 
-### Getting Started
+## Getting Started
 
 To use this package, add `async_storage_reader` as a dependency in your `pubspec.yaml` file:
 
@@ -30,7 +30,7 @@ dependencies:
   async_storage_reader: ^1.0.0
 ```
 
-### Example Usage
+## Example Usage
 
 ```dart
 import 'package:async_storage_reader/async_storage_reader.dart';

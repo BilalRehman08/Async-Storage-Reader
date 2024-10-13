@@ -1,7 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+/// A class to handle SQLite storage operations.
+///
+/// This class provides methods to interact with SQLite database,
+/// including reading, writing, and clearing data.
 class SQLiteStorage {
   static Database? _database;
 
@@ -21,7 +26,7 @@ class SQLiteStorage {
 
       _database = await openDatabase(path, readOnly: false);
     } catch (e) {
-      print("Error initializing database: $e");
+      log("Error initializing database: $e");
     }
   }
 
@@ -41,7 +46,7 @@ class SQLiteStorage {
       );
       return maps.isNotEmpty ? maps.first['value'] as String? : null;
     } catch (e) {
-      print("Error reading from SQLite: $e");
+      log("Error reading from SQLite: $e");
       return null;
     }
   }
@@ -59,7 +64,7 @@ class SQLiteStorage {
       return Map.fromEntries(maps.map(
           (item) => MapEntry(item['key'] as String, item['value'] as String)));
     } catch (e) {
-      print("Error reading all items from SQLite: $e");
+      log("Error reading all items from SQLite: $e");
       return {};
     }
   }
@@ -79,7 +84,7 @@ class SQLiteStorage {
       );
       return true;
     } catch (e) {
-      print("Error removing item from SQLite: $e");
+      log("Error removing item from SQLite: $e");
       return false;
     }
   }
@@ -95,7 +100,7 @@ class SQLiteStorage {
       await _database!.delete('catalystLocalStorage');
       return true;
     } catch (e) {
-      print("Error clearing SQLite: $e");
+      log("Error clearing SQLite: $e");
       return false;
     }
   }

@@ -1,5 +1,11 @@
+import 'dart:developer';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// A class to handle SharedPreferences storage operations for Android.
+///
+/// This class provides methods to interact with SharedPreferences,
+/// including reading, writing, and clearing data.
 class SharedPrefsStorage {
   /// Retrieves an item from SharedPreferences.
   ///
@@ -9,7 +15,7 @@ class SharedPrefsStorage {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getString(key);
     } catch (e) {
-      print("Error reading from SharedPreferences: $e");
+      log("Error reading from SharedPreferences: $e");
       return null;
     }
   }
@@ -30,7 +36,7 @@ class SharedPrefsStorage {
       }
       return result;
     } catch (e) {
-      print("Error reading all items from SharedPreferences: $e");
+      log("Error reading all items from SharedPreferences: $e");
       return {};
     }
   }
@@ -44,7 +50,7 @@ class SharedPrefsStorage {
       await prefs.remove(key);
       return true;
     } catch (e) {
-      print("Error removing item from SharedPreferences: $e");
+      log("Error removing item from SharedPreferences: $e");
       return false;
     }
   }
@@ -58,7 +64,7 @@ class SharedPrefsStorage {
       await prefs.clear();
       return true;
     } catch (e) {
-      print("Error clearing SharedPreferences: $e");
+      log("Error clearing SharedPreferences: $e");
       return false;
     }
   }
