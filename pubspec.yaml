@@ -1,6 +1,6 @@
 name: async_storage_reader
 description: "Flutter package to read AsyncStorage data from React Native apps, aiding migration to Flutter without data loss."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/BilalRehman08/Async-Storage-Reader
 repository: https://github.com/BilalRehman08/Async-Storage-Reader
 
