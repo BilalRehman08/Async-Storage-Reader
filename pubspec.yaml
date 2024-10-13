@@ -1,10 +1,8 @@
 name: async_storage_reader
-description: "A Flutter package created to assist in migrating data from a React Native app by accessing and reading AsyncStorage for Android and iOS. 
-  It allows reading of AsyncStorage data from react native app, 
-  like user session tokens, preferences, other configurations, and cached data are preserved without logging out or data loss  
-  during migration to a new Flutter app."
+description: "Flutter package to read AsyncStorage data from React Native apps, aiding migration to Flutter without data loss."
 version: 0.0.1
 homepage: https://github.com/BilalRehman08/Async-Storage-Reader
+repository: https://github.com/BilalRehman08/Async-Storage-Reader
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -24,7 +22,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   mockito: ^5.4.4
   build_runner: ^2.4.13
-
 
 platforms:
   android:
