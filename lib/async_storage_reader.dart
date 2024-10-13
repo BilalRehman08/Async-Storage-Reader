@@ -5,110 +5,97 @@
 /// from React Native to Flutter applications.
 library async_storage_reader;
 
-import 'dart:io' as io;
 import 'package:async_storage_reader/src/ios_storage.dart';
-import 'package:async_storage_reader/src/shared_prefs_storage.dart';
+import 'package:async_storage_reader/src/platform_checker.dart';
 import 'package:async_storage_reader/src/sqlite_storage.dart';
 
-/// A class to read and manage AsyncStorage data across different storage mechanisms.
+/// A class to read and manage AsyncStorage data based on platform.
 ///
 /// This class provides methods to access, retrieve, and manage data stored
-/// in SQLite, SharedPreferences (Android), and iOS-specific storage.
+/// in SQLite for Android and iOS, and iOS-specific storage for iOS.
 class AsyncStorageReader {
-  /// The SQLite storage implementation.
-  ///
-  /// This member handles all SQLite-related operations for storing and retrieving data.
+  /// The SQLite storage implementation for Android.
   final SQLiteStorage sqliteStorage;
 
-  /// The SharedPreferences storage implementation for Android.
-  ///
-  /// This member handles all SharedPreferences-related operations for storing and retrieving data on Android devices.
-  final SharedPrefsStorage sharedPrefsStorage;
-
-  /// The iOS-specific storage implementation.
-  ///
-  /// This member handles all iOS-specific operations for storing and retrieving data on iOS devices.
+  /// The iOS-specific storage implementation for iOS.
   final IOSStorage iosStorage;
+
+  /// The platform checker implementation to determine the current platform.
+  final PlatformChecker platformChecker;
 
   /// Constructs an instance of [AsyncStorageReader].
   ///
-  /// You can optionally provide custom implementations of [SQLiteStorage],
-  /// [SharedPrefsStorage], and [IOSStorage]. If not provided, default
-  /// implementations will be used.
+  /// You can optionally provide custom implementations of [SQLiteStorage] and [IOSStorage].
+  /// If not provided, default implementations will be used.
   AsyncStorageReader({
     SQLiteStorage? sqliteStorage,
-    SharedPrefsStorage? sharedPrefsStorage,
     IOSStorage? iosStorage,
+    PlatformChecker? platformChecker,
   })  : sqliteStorage = sqliteStorage ?? SQLiteStorage(),
-        sharedPrefsStorage = sharedPrefsStorage ?? SharedPrefsStorage(),
-        iosStorage = iosStorage ?? IOSStorage();
+        iosStorage = iosStorage ?? IOSStorage(),
+        platformChecker = platformChecker ?? RealPlatformChecker();
 
   /// Retrieves the value associated with the given [key].
   ///
-  /// This method first checks SQLite storage, then falls back to
-  /// platform-specific storage (SharedPreferences for Android, iOS-specific for iOS).
+  /// On Android, it uses SQLite storage, and on iOS, it uses iOS-specific storage.
   ///
   /// Returns a [Future] that completes with the value as a [String],
-  /// or `null` if the key is not found.
-  Future<String?> getItem(String key) async {
-    String? value = await sqliteStorage.getItemFromSQLite(key);
-    if (value != null) return value;
-
-    return io.Platform.isAndroid
-        ? await sharedPrefsStorage.getItemFromSharedPreferences(key)
-        : await iosStorage.getItemFromIOSAsyncStorage(key);
+  /// a message if the platform is not supported, or if the key is not found.
+  Future<String> getItem(String key) async {
+    if (platformChecker.isAndroid) {
+      final value = await sqliteStorage.getItemFromSQLite(key);
+      return value ?? 'Key not found';
+    } else if (platformChecker.isIOS) {
+      return await iosStorage.getItemFromIOSAsyncStorage(key) ??
+          'Key not found';
+    }
+    return 'Platform not supported';
   }
 
   /// Retrieves all key-value pairs stored in AsyncStorage.
   ///
-  /// This method first checks SQLite storage, then falls back to
-  /// platform-specific storage if SQLite is empty.
+  /// On Android, it uses SQLite storage, and on iOS, it uses iOS-specific storage.
   ///
   /// Returns a [Future] that completes with a [Map] containing
-  /// all key-value pairs stored in AsyncStorage.
+  /// all key-value pairs stored in AsyncStorage, or an empty message if none exist.
   Future<Map<String, String>> getAllItems() async {
-    Map<String, String> allItems = await sqliteStorage.getAllItemsFromSQLite();
-
-    if (allItems.isEmpty) {
-      allItems.addAll(io.Platform.isAndroid
-          ? await sharedPrefsStorage.getAllItemsFromSharedPreferences()
-          : await iosStorage.getAllItemsFromIOSAsyncStorage());
+    if (platformChecker.isAndroid) {
+      final items = await sqliteStorage.getAllItemsFromSQLite();
+      return items.isNotEmpty ? items : {'message': 'No items found'};
+    } else if (platformChecker.isIOS) {
+      final items = await iosStorage.getAllItemsFromIOSAsyncStorage();
+      return items.isNotEmpty ? items : {'message': 'No items found'};
     }
-
-    return allItems;
+    return {};
   }
 
   /// Removes the value associated with the given [key].
   ///
-  /// This method attempts to remove the item from SQLite storage first,
-  /// then falls back to platform-specific storage if unsuccessful.
+  /// On Android, it uses SQLite storage, and on iOS, it uses iOS-specific storage.
   ///
   /// Returns a [Future] that completes with a [bool] indicating
   /// whether the removal was successful.
   Future<bool> removeItem(String key) async {
-    bool success = await sqliteStorage.removeItemFromSQLite(key);
-    if (!success) {
-      success = io.Platform.isAndroid
-          ? await sharedPrefsStorage.removeItemFromSharedPreferences(key)
-          : await iosStorage.removeItemFromIOSAsyncStorage(key);
+    if (platformChecker.isAndroid) {
+      return await sqliteStorage.removeItemFromSQLite(key);
+    } else if (platformChecker.isIOS) {
+      return await iosStorage.removeItemFromIOSAsyncStorage(key);
     }
-    return success;
+    return false;
   }
 
   /// Clears all data from AsyncStorage.
   ///
-  /// This method attempts to clear SQLite storage first,
-  /// then falls back to platform-specific storage if unsuccessful.
+  /// On Android, it uses SQLite storage, and on iOS, it uses iOS-specific storage.
   ///
   /// Returns a [Future] that completes with a [bool] indicating
   /// whether the clearing operation was successful.
   Future<bool> clear() async {
-    bool success = await sqliteStorage.clearSQLite();
-    if (!success) {
-      success = io.Platform.isAndroid
-          ? await sharedPrefsStorage.clearSharedPreferences()
-          : await iosStorage.clearIOSAsyncStorage();
+    if (platformChecker.isAndroid) {
+      return await sqliteStorage.clearSQLite();
+    } else if (platformChecker.isIOS) {
+      return await iosStorage.clearIOSAsyncStorage();
     }
-    return success;
+    return false;
   }
 }

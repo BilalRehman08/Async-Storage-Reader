@@ -53,7 +53,7 @@ class _AsyncStorageReaderTestUIState extends State<AsyncStorageReaderTestUI> {
       return;
     }
     final value = await _storageReader.getItem(key);
-    _setResult('Get Item Result: ${value ?? 'null'}');
+    _setResult('Get Item Result: $value');
   }
 
   Future<void> _getAllItems() async {
